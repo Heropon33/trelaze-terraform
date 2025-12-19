@@ -36,7 +36,7 @@ resource "aws_key_pair" "keypair1" {
 resource "aws_instance" "otl" {
   ami = "resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
 
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
 
   key_name = aws_key_pair.keypair1.key_name
 
