@@ -16,6 +16,12 @@ provider "aws" {
   region = "eu-north-1"
 }
 
+variable "public_key_file" {
+  description = "Chemin vers la clé publique"
+  default     = "~/ansible.pub"
+}
+
+
 data "aws_vpc" "default" {
   default = true
 }
@@ -43,6 +49,14 @@ resource "aws_instance" "otl" {
   vpc_security_group_ids = [
     aws_security_group.sg1.id
   ]
+
+  user_data = <<-EOF
+              #!/bin/bash
+              mkdir -p /root/.ssh
+              echo "${file(var.public_key_file)}" >> /root/.ssh/authorized_keys
+              chmod 600 /root/.ssh/authorized_keys
+              chmod 700 /root/.ssh
+              EOF
 
   tags = {
     Name = "otl"
