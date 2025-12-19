@@ -26,6 +26,10 @@ data "aws_vpc" "default" {
   default = true
 }
 
+data "aws_ssm_parameter" "ubuntu_ami" {
+  name = "/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
+}
+
 resource "tls_private_key" "ssh" {
   algorithm = "ED25519"
 }
@@ -39,10 +43,10 @@ resource "aws_key_pair" "keypair1" {
   }
 }
 
-resource "aws_instance" "otl" {
-  ami = "resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
+resource "aws_instance" "robot_shop" {
+  ami = data.aws_ssm_parameter.ubuntu_ami.value
 
-  instance_type = "t3.micro"
+  instance_type = "m7i-flex.large"
 
   key_name = aws_key_pair.keypair1.key_name
 
@@ -59,7 +63,7 @@ resource "aws_instance" "otl" {
               EOF
 
   tags = {
-    Name = "otl"
+    Name = "robot_shop"
   }
 
 }
@@ -94,7 +98,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
   description = "Autoriser tout le trafic sortant"
 }
 
-output "otl_public_ip" {
-  value       = aws_instance.otl.public_ip
-  description = "IP publique de l'instance otl"
+output "robot_shop_public_ip" {
+  value       = aws_instance.robot_shop.public_ip
+  description = "IP publique de l'instance robot_shop"
 }
