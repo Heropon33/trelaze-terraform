@@ -66,6 +66,12 @@ resource "aws_instance" "robot_shop" {
     Name = "robot_shop"
   }
 
+  root_block_device {
+    volume_size           = 30    # Taille en Go
+    volume_type           = "gp3" # Type de disque (recommandé)
+    delete_on_termination = true  # Supprime le disque si l'instance est détruite
+    encrypted             = false  # Bonne pratique de sécurité
+  }
 }
 
 resource "aws_security_group" "sg1" {
