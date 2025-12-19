@@ -39,7 +39,7 @@ resource "aws_key_pair" "keypair1" {
   }
 }
 
-resource "aws_instance" "robot_shop" {
+resource "aws_instance" "robotshop" {
   ami = "resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
 
   instance_type = "m7i-flex.large"
@@ -59,14 +59,14 @@ resource "aws_instance" "robot_shop" {
               EOF
 
   tags = {
-    Name = "robot_shop"
+    Name = "robotshop"
   }
 
   root_block_device {
       volume_size           = 30    # Taille en Go
       volume_type           = "gp3" # Type de disque (recommandé)
       delete_on_termination = true  # Supprime le disque si l'instance est détruite
-      encrypted             = true  # Bonne pratique de sécurité
+      encrypted             = false  # Bonne pratique de sécurité
   }
 
 }
@@ -101,7 +101,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
   description = "Autoriser tout le trafic sortant"
 }
 
-output "robot_shop_public_ip" {
-  value       = aws_instance.robot_shop.public_ip
-  description = "IP publique de l'instance robot_shop"
+output "robotshop_public_ip" {
+  value       = aws_instance.robotshop.public_ip
+  description = "IP publique de l'instance robotshop"
 }
