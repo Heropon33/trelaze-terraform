@@ -62,11 +62,6 @@ resource "aws_instance" "otl" {
     Name = "otl"
   }
 
-  root_block_device {
-    volume_size = 30
-    volume_type = "gp3"
-  }
-
 }
 
 resource "aws_security_group" "sg1" {
