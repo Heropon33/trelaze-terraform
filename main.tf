@@ -59,7 +59,7 @@ resource "aws_instance" "robot_shop" {
               EOF
 
   tags = {
-    Name = "otl"
+    Name = "robot_shop"
   }
 
   root_block_device {
@@ -101,7 +101,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
   description = "Autoriser tout le trafic sortant"
 }
 
-output "otl_public_ip" {
-  value       = aws_instance.otl.public_ip
-  description = "IP publique de l'instance otl"
+output "robot_shop_public_ip" {
+  value       = aws_instance.robot_shop.public_ip
+  description = "IP publique de l'instance robot_shop"
 }
