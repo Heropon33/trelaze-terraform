@@ -18,7 +18,7 @@ provider "aws" {
 
 variable "public_key_file" {
   description = "Chemin vers la clé publique"
-  default     = "~/ansible.pub"
+  default     = "ansible.pub"
 }
 
 
