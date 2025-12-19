@@ -39,10 +39,10 @@ resource "aws_key_pair" "keypair1" {
   }
 }
 
-resource "aws_instance" "robotshop" {
+resource "aws_instance" "otl" {
   ami = "resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
 
-  instance_type = "m7i-flex.large"
+  instance_type = "t3.micro"
 
   key_name = aws_key_pair.keypair1.key_name
 
@@ -59,14 +59,12 @@ resource "aws_instance" "robotshop" {
               EOF
 
   tags = {
-    Name = "robotshop"
+    Name = "otl"
   }
 
   root_block_device {
-      volume_size           = 30    # Taille en Go
-      volume_type           = "gp3" # Type de disque (recommandé)
-      delete_on_termination = true  # Supprime le disque si l'instance est détruite
-      encrypted             = false  # Bonne pratique de sécurité
+    volume_size = 30
+    volume_type = "gp3"
   }
 
 }
@@ -101,7 +99,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
   description = "Autoriser tout le trafic sortant"
 }
 
-output "robotshop_public_ip" {
-  value       = aws_instance.robotshop.public_ip
-  description = "IP publique de l'instance robotshop"
+output "otl_public_ip" {
+  value       = aws_instance.otl.public_ip
+  description = "IP publique de l'instance otl"
 }
